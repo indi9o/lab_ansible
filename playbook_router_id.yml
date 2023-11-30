@@ -1,0 +1,43 @@
+- name: Konfigurasi OSPF Router-ID
+  hosts: cisco_routers
+  gather_facts: false
+  collections:
+    - cisco.ios
+  tasks:
+    - name: Mengkonfigurasi OSPF Router-ID di masing-masing Router 
+      ios_config:
+        lines:
+          - "router-id {{ item.router_id }}"
+        parents: ["router ospf 1"]
+        save_when: modified
+      notify: restart_ospf
+      loop:
+        - { router: 'R1', router_id: '1.1.1.1' }
+        - { router: 'R2', router_id: '2.2.2.2' }
+        - { router: 'R3', router_id: '3.3.3.3' }
+        - { router: 'R4', router_id: '4.4.4.4' }
+        - { router: 'R5', router_id: '5.5.5.5' }
+      when: inventory_hostname == item.router
+    
+  handlers:
+    - name: restart_ospf
+      ios_command:
+        commands:
+          - "clear ip ospf process"
+          - "yes"
+      when: inventory_hostname == item.router  
+    # - name: Konfigurasi OSPF Router-ID pada router R3'
+    #   ios_config:
+    #     lines:
+    #       - "router ospf 1"
+    #       - "router-id 3.3.3.3"
+    #   when: inventory_hostname == 'R3'
+
+    # - name: Konfigurasi OSPF Router-ID pada router R5'
+    #   ios_config:
+    #     lines:
+    #       - "router ospf 1"
+    #       - "router-id 5.5.5.5"
+    #   when: inventory_hostname == 'R5'
+
+

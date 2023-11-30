@@ -1,0 +1,33 @@
+---
+all:
+  children:
+    cisco_routers:
+      vars:
+        ansible_user: admin
+        ansible_ssh_pass: admin
+        ansible_network_os: ios
+        ansible_connection: network_cli
+        ansible_command_timeout: 60
+      hosts:
+        # 192.168.122.[2:6]:
+        R1:
+          ansible_host: 192.168.122.2
+        R2:
+          ansible_host: 192.168.122.3
+        R3:
+          ansible_host: 192.168.122.4
+        R4:
+          ansible_host: 192.168.122.5
+        R5:
+          ansible_host: 192.168.122.6
+    mikrotik_routers:
+      vars:
+        ansible_user: admin
+        ansible_ssh_pass: admin
+        ansible_network_os: routeros
+        ansible_connection: network_cli
+      hosts:
+        chr-1:
+          ansible_host: 192.168.122.7
+        chr-2:
+          ansible_host: 192.168.122.8

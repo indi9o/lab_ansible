@@ -1,0 +1,17 @@
+---
+- name: Verify Configuration
+  hosts: cisco_routers
+  collections:
+    - cisco.ios
+  gather_facts: false
+
+  tasks:
+    - name: status OSPF di masing-masing Router
+      ios_command:
+        commands:
+          - show ip ospf neighbor
+      register: config_output
+
+    - name: Tampilkan status OSPF
+      debug:
+        var: config_output.stdout_lines

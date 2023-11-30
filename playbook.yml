@@ -1,0 +1,140 @@
+---
+- name: Konfigurasi IP Point to Point dan Routing OSPF di masing-masing Router
+  hosts: cisco_routers
+  collections:
+    - cisco.ios
+  gather_facts: false
+
+  tasks:
+    - name: Global config setting
+      ios_config:
+        lines:
+          - ipv6 unicast-routing
+
+    - name: Konfigurasi IP Point to Poin pada R1
+      ios_config:
+        lines:
+          - description {{ item.description }}
+          - ip address {{ item.ipv4 }}
+          - no shutdown
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0', description: 'R1 to R2', ipv4: '10.1.12.1 255.255.255.252' }
+        - { interface: 'f1/1', description: 'R1 to R4', ipv4: '10.1.14.1 255.255.255.252' }
+        - { interface: 'lo1', description: 'loopback 1', ipv4: '1.1.1.1 255.255.255.255' }
+        - { interface: 'lo2', description: 'loopback 2', ipv4: '111.111.111.111 255.255.255.255'}
+      when: inventory_hostname == 'R1'
+
+    - name: Konfigurasi Routing OSPF pada R1
+      ios_config:
+        lines:
+          - ip ospf network point-to-point
+          - ip ospf 1 area 0
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0'}
+        - { interface: 'f1/1'}
+        - { interface: 'lo1'}
+        - { interface: 'lo2'}
+      when: inventory_hostname == 'R1'
+
+    - name: Konfigurasi IP Poin to Poin pada R2
+      ios_config:
+        lines:
+            - description {{ item.description }}
+            - ip address {{ item.ipv4 }}
+            - no shutdown
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0', description: 'R2 to R1', ipv4: '10.1.12.2 255.255.255.252' }
+        - { interface: 'f1/1', description: 'R2 to R3', ipv4: '10.1.23.1 255.255.255.252' }
+        - { interface: 'lo1', description: 'loopback 1', ipv4: '2.2.2.2 255.255.255.255' }
+      when: inventory_hostname == 'R2'
+
+    - name: Konfigurasi Routing OSPF pada R2
+      ios_config:
+        lines:
+          - ip ospf network point-to-point
+          - ip ospf 1 area 0
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0'}
+        - { interface: 'f1/1'}
+        - { interface: 'lo1'}
+      when: inventory_hostname == 'R2'
+    
+
+    - name: Konfigurasi IP Poin to Poin pada R3
+      ios_config:
+        lines:
+          - description {{ item.description }}
+          - ip address {{ item.ipv4 }}
+          - no shutdown
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0', description: 'R3 to R2', ipv4: '10.1.23.2 255.255.255.252' }
+        - { interface: 'f1/1', description: 'R3 to R5', ipv4: '10.1.35.1 255.255.255.252' }
+        - { interface: 'lo1', description: 'loopback 1', ipv4: '3.3.3.3 255.255.255.255' }
+      when: inventory_hostname == 'R3'
+
+    - name: Konfigurasi Routing OSPF pada R3
+      ios_config:
+        lines:
+          - ip ospf network point-to-point
+          - ip ospf 1 area 0
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0'}
+        - { interface: 'f1/1'}
+        - { interface: 'lo1'}
+      when: inventory_hostname == 'R3'
+
+    - name: Konfigurasi IP Poin to Poin pada R4
+      ios_config:
+        lines:
+          - description {{ item.description }}
+          - ip address {{ item.ipv4 }}
+          - no shutdown
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0', description: 'R4 to R1', ipv4: '10.1.14.2 255.255.255.252' }
+        - { interface: 'f1/1', description: 'R4 to R5', ipv4: '10.1.45.1 255.255.255.252' }
+        - { interface: 'lo1', description: 'loopback 1', ipv4: '4.4.4.4 255.255.255.255' }
+      when: inventory_hostname == 'R4'
+
+    - name: Konfigurasi Routing OSPF pada R4
+      ios_config:
+        lines:
+          - ip ospf network point-to-point
+          - ip ospf 1 area 0
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0'}
+        - { interface: 'f1/1'}
+        - { interface: 'lo1'}
+      when: inventory_hostname == 'R4'
+
+    - name: Konfigurasi IP Poin to Poin pada R5
+      ios_config:
+        lines:
+          - description {{ item.description }}
+          - ip address {{ item.ipv4 }}
+          - no shutdown
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0', description: 'R5 to R4', ipv4: '10.1.45.2 255.255.255.252' }
+        - { interface: 'f1/1', description: 'R5 to R3', ipv4: '10.1.35.2 255.255.255.252' }
+        - { interface: 'lo1', description: 'loopback 1', ipv4: '5.5.5.5 255.255.255.255' }
+      when: inventory_hostname == 'R5'
+
+    - name: Konfigurasi Routing OSPF pada R5
+      ios_config:
+        lines:
+          - ip ospf network point-to-point
+          - ip ospf 1 area 0
+        parents: interface {{ item.interface }}
+      loop:
+        - { interface: 'f1/0'}
+        - { interface: 'f1/1'}
+        - { interface: 'lo1'}
+      when: inventory_hostname == 'R5'

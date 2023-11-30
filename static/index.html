@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Output Playbook Ansible</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        function formatOutput(text) {
+            let formattedText = text;
+    
+            // Format untuk PLAY dan TASK
+            formattedText = formattedText.replace(/(PLAY \[.*?\])|(TASK \[.*?\])/g, '<strong>$&</strong><br>');
+    
+            // Format untuk PLAY RECAP
+            formattedText = formattedText.replace(/(PLAY RECAP \*+)/g, '<br><strong>$&</strong><br>');
+    
+            // Format untuk output OSPF
+            formattedText = formattedText.replace(/("config_output.stdout_lines": \[\s+\[)/, '$&<br>')
+                                         .replace(/\],\s+\]/, '<br>],]');
+    
+            // Mengganti baris baru dengan tag <br>
+            formattedText = formattedText.replace(/\n/g, '<br>');
+    
+            return formattedText;
+        }
+
+        function jalankanPlaybook() {
+            const router = document.getElementById('routerSelection').value;
+            fetch(`/run_playbook/${router}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('stdout').innerHTML = formatOutput(data.stdout || '');
+                    document.getElementById('stderr').textContent = data.stderr || '';
+                    document.getElementById('returncode').textContent = 'Kode Kembali: ' + (data.returncode || '');
+                })
+                .catch(error => {
+                    document.getElementById('error').textContent = 'Error: ' + error;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Output Playbook Ansible</h1>
+    <label for="routerSelection">Pilih Router:</label>
+    <select id="routerSelection">
+        <option value="all">Semua Router</option>
+        <option value="R1">R1</option>
+        <option value="R2">R2</option>
+        <option value="R3">R3</option>
+        <option value="R4">R4</option>
+        <option value="R5">R5</option>
+    </select>
+    <button onclick="jalankanPlaybook()">Jalankan Playbook</button>
+    <h2>Output Standar:</h2>
+    <pre id="stdout"></pre>
+    <!-- <h2>Output Error:</h2>
+    <pre id="stderr"></pre>
+    <pre id="error"></pre> -->
+    <h2>Informasi Lainnya:</h2>
+    <pre id="returncode"></pre>
+</body>
+</html>

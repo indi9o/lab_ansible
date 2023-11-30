@@ -1,0 +1,73 @@
+/* Isi dari style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    line-height: 1.6;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+button {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #555;
+}
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+pre {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow: auto;
+}
+h1, h2 {
+    color: #333;
+}
+
+/* Gaya untuk Output Standar */
+#stdout {
+    background-color: #f8f8f8;
+    border-left: 3px solid #5cb85c;
+    color: #333;
+    padding: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap; /* Untuk memastikan teks tidak melebihi lebar elemen */
+    word-break: break-word; /* Untuk memastikan kata-kata tidak terpotong secara tidak wajar */
+}
+
+strong {
+    color: #0056b3; /* Warna untuk judul PLAY dan TASK */
+}
+
+/* Gaya umum untuk elemen pre (termasuk stderr dan returncode) */
+pre {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow: auto;
+}
+
+/* Gaya khusus untuk Error Output */
+#stderr {
+    border-left: 3px solid #d9534f;
+}
+
+/* Gaya khusus untuk Informasi Lainnya */
+#returncode {
+    border-left: 3px solid #f0ad4e;
+}
