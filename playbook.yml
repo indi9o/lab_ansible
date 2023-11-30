@@ -23,6 +23,7 @@
         - { interface: 'f1/1', description: 'R1 to R4', ipv4: '10.1.14.1 255.255.255.252' }
         - { interface: 'lo1', description: 'loopback 1', ipv4: '1.1.1.1 255.255.255.255' }
         - { interface: 'lo2', description: 'loopback 2', ipv4: '111.111.111.111 255.255.255.255'}
+        - { interface: 'lo3', description: 'loopback 3', ipv4: '133.133.133.133 255.255.255.255'}
       when: inventory_hostname == 'R1'
 
     - name: Konfigurasi Routing OSPF pada R1
@@ -36,6 +37,7 @@
         - { interface: 'f1/1'}
         - { interface: 'lo1'}
         - { interface: 'lo2'}
+        - { interface: 'lo3'}
       when: inventory_hostname == 'R1'
 
     - name: Konfigurasi IP Poin to Poin pada R2
