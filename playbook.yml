@@ -77,6 +77,8 @@
         - { interface: 'f1/0', description: 'R3 to R2', ipv4: '10.1.23.2 255.255.255.252' }
         - { interface: 'f1/1', description: 'R3 to R5', ipv4: '10.1.35.1 255.255.255.252' }
         - { interface: 'lo1', description: 'loopback 1', ipv4: '3.3.3.3 255.255.255.255' }
+        - { interface: 'lo2', description: 'loopback 2', ipv4: '33.33.33.33 255.255.255.0' }
+        - { interface: 'lo3', description: 'loopback 3', ipv4: '30.30.30.30 255.255.255.0' }
       when: inventory_hostname == 'R3'
 
     - name: Konfigurasi Routing OSPF pada R3
@@ -89,6 +91,8 @@
         - { interface: 'f1/0'}
         - { interface: 'f1/1'}
         - { interface: 'lo1'}
+        - { interface: 'lo2'}
+        - { interface: 'lo3'}
       when: inventory_hostname == 'R3'
 
     - name: Konfigurasi IP Poin to Poin pada R4
@@ -127,6 +131,8 @@
         - { interface: 'f1/0', description: 'R5 to R4', ipv4: '10.1.45.2 255.255.255.252' }
         - { interface: 'f1/1', description: 'R5 to R3', ipv4: '10.1.35.2 255.255.255.252' }
         - { interface: 'lo1', description: 'loopback 1', ipv4: '5.5.5.5 255.255.255.255' }
+        - { interface: 'lo2', description: 'loopback 2', ipv4: '55.55.55.55 255.255.255.0' }
+        - { interface: 'lo3', description: 'loopback 3', ipv4: '50.50.50.50 255.255.255.0' }
       when: inventory_hostname == 'R5'
 
     - name: Konfigurasi Routing OSPF pada R5
@@ -139,4 +145,6 @@
         - { interface: 'f1/0'}
         - { interface: 'f1/1'}
         - { interface: 'lo1'}
+        - { interface: 'lo2'}
+        - { interface: 'lo3'}
       when: inventory_hostname == 'R5'
