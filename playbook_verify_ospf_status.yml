@@ -12,6 +12,16 @@
           - show ip ospf neighbor
       register: config_output
 
+    - name: menampilkan table routing OSPF di masing-masing Router
+      ios_command:
+        commands:
+          - show ip route ospf
+      register: config_output_table_routing
+
     - name: Tampilkan status OSPF
       debug:
         var: config_output.stdout_lines
+
+    - name: Tampilkan table routing ospf 
+      debug:
+        var: config_output_table_routing.stdout_lines
